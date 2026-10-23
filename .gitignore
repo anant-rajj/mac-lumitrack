@@ -1,0 +1,9 @@
+# Compiled binaries
+trackpad-kb-brightness
+
+# Object files & debug symbols
+*.o
+*.dSYM/
+
+# macOS system files
+.DS_Store
