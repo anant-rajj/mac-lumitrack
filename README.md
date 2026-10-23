@@ -72,3 +72,32 @@ To inspect real-time touch coordinates and brightness percentage values live in 
 - **CPU Idle**: 0.0% (Zero polling; event-driven via `MultitouchSupport` contact callbacks)
 - **Zero External Dependencies**: Links directly to Apple's native frameworks (`CoreGraphics`, `MultitouchSupport`, `CoreBrightness`).
 - **Auto-Brightness Override**: Automatically turns off macOS ambient sensor throttling so manual keyboard brightness control works even in bright rooms.
+
+---
+
+## 6. Uninstallation & Complete Removal
+
+To stop all background daemons, disable auto-start, and completely remove `trackpad-kb-brightness`:
+
+### Option 1: Via Makefile
+From inside the repository directory:
+```bash
+make stop
+make uninstall-service
+```
+
+### Option 2: Manual Removal & Cleanup
+To ensure all running daemons, services, and downloaded files are completely removed:
+```bash
+# 1. Stop background processes and unload LaunchAgent
+launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/com.anantraj.trackpad-kb-brightness.plist 2>/dev/null || true
+pkill -9 -f "trackpad-kb-brightness" || true
+rm -f /tmp/trackpad-kb-brightness.pid
+
+# 2. Remove the installed binary and LaunchAgent configuration
+rm -f ~/.local/bin/trackpad-kb-brightness
+rm -f ~/Library/LaunchAgents/com.anantraj.trackpad-kb-brightness.plist
+
+# 3. Delete the repository directory
+rm -rf ~/trackpad-kb-brightness
+```
