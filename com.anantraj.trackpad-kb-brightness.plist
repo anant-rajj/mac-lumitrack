@@ -6,7 +6,7 @@
     <string>com.anantraj.trackpad-kb-brightness</string>
     <key>ProgramArguments</key>
     <array>
-        <string>/Users/anantraj/trackpad-kb-brightness/trackpad-kb-brightness</string>
+        <string>BINARY_PATH_PLACEHOLDER</string>
     </array>
     <key>RunAtLoad</key>
     <true/>

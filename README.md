@@ -2,64 +2,73 @@
 
 An ultra-lightweight, zero-dependency native macOS background daemon written in pure C/Objective-C that adjusts your MacBook keyboard backlight brightness via **`Command (⌘)` or `Fn` (Globe) + Trackpad drag**.
 
-## 1. Specifications & Metrics
-- **Binary Size**: ~50 KB (Compiled stripped native Mach-O binary)
-- **RAM Footprint**: ~3.5 MB RSS
-- **Idle CPU**: 0.0% (Fully event-driven via `MultitouchSupport` run loop)
-- **Dependencies**: Zero external runtimes (uses native Apple frameworks `CoreGraphics`, `MultitouchSupport` & `CoreBrightness`)
-- **Zero Accidental Triggers**: Normal trackpad gestures (clicks, cursor movement, two-finger scroll, three-finger swipe, pinch zoom) are 100% unaffected when neither `Command` nor `Fn` is pressed.
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Platform: macOS](https://img.shields.io/badge/Platform-macOS-lightgrey.svg)](https://apple.com)
+[![Binary Size: ~50KB](https://img.shields.io/badge/Binary%20Size-~50KB-green.svg)]()
+[![Memory: ~3.5MB](https://img.shields.io/badge/RAM%20Footprint-~3.5MB-green.svg)]()
+
+---
+
+## 1. Quick Installation (For Anyone on macOS)
+
+Clone and start the background daemon on your Mac in one step:
+
+```bash
+git clone https://github.com/anant-rajj/trackpad-kb-brightness.git
+cd trackpad-kb-brightness
+make start
+```
+
+That's it! The tool is now running quietly in the background.
+
+> **Permissions Note**: If prompted on first run, grant **Accessibility** permissions in `System Settings -> Privacy & Security -> Accessibility`.
 
 ---
 
 ## 2. Gesture Mapping
-| Action | Shortcut | Direction |
+
+| Action | Gesture | Direction |
 | :--- | :--- | :--- |
-| **Increase Keyboard Brightness** | Hold **`Command (⌘)`** or **`Fn`** + 1 finger on lower trackpad | Slide **Left to Right** |
-| **Decrease Keyboard Brightness** | Hold **`Command (⌘)`** or **`Fn`** + 1 finger on lower trackpad | Slide **Right to Left** |
-| **Normal macOS usage** | Regular touches (without modifier held) | 100% untouched & passed through |
-| **Multi-touch gestures** | 2, 3, or 4 fingers | Completely untouched & passed through |
+| **Increase Keyboard Brightness** | Hold **`Command (⌘)`** or **`Fn`** + 1 finger on lower trackpad | Slide **Left → Right** |
+| **Decrease Keyboard Brightness** | Hold **`Command (⌘)`** or **`Fn`** + 1 finger on lower trackpad | Slide **Right → Left** |
+| **Normal macOS usage** | Regular touches (without modifier key held) | **100% untouched & passed through** |
+| **Multi-touch gestures** | 2, 3, or 4 fingers (scrolling, mission control, swipes) | **Completely untouched** |
 
 ---
 
-## 3. Running in the Background (Survives Terminal Closure)
+## 3. Background Controls & Auto-Start
 
-### Method A: Quick Background Daemon (Recommended)
-To run detached from your terminal session so it never dies when closing or escaping Terminal:
+### Manage Background Process
 ```bash
-cd /Users/anantraj/trackpad-kb-brightness
-make start
-```
-- Forks into the background as an independent daemon.
-- Ignores `SIGHUP` and `SIGPIPE` — **closing, exiting, or killing Terminal will NOT stop it**.
-- Logs real-time status to `/tmp/trackpad-kb-brightness.log`.
-
-To check status or stop it:
-```bash
-make status  # Shows running PID
-make stop    # Stops the background daemon cleanly
+make status   # Check if currently running and view PID
+make stop     # Stop the background daemon
+make start    # Restart the background daemon
 ```
 
----
-
-### Method B: 24/7 macOS LaunchAgent (Starts on Login)
-To have it run permanently in the background without ever needing to open a terminal:
+### Auto-Start 24/7 on Login (Optional)
+To have macOS start it automatically every time you log in (survives reboots, no terminal needed):
 ```bash
-cd /Users/anantraj/trackpad-kb-brightness
 make install-service
 ```
-- Registers `~/Library/LaunchAgents/com.anantraj.trackpad-kb-brightness.plist`.
-- macOS launches it automatically on user login and keeps it alive.
 
-To uninstall:
+To remove the auto-start service:
 ```bash
 make uninstall-service
 ```
 
 ---
 
-## 4. Manual / Debug Mode
-If you want to view real-time touch coordinate and brightness percentage logs in the terminal:
+## 4. Debug Mode
+To inspect real-time touch coordinates and brightness percentage values live in your terminal:
 ```bash
-cd /Users/anantraj/trackpad-kb-brightness
 ./trackpad-kb-brightness --verbose
 ```
+
+---
+
+## 5. Specifications & Architecture
+- **Binary Size**: ~50 KB (Stripped native Mach-O executable)
+- **RAM Footprint**: ~3.5 MB RSS
+- **CPU Idle**: 0.0% (Zero polling; event-driven via `MultitouchSupport` contact callbacks)
+- **Zero External Dependencies**: Links directly to Apple's native frameworks (`CoreGraphics`, `MultitouchSupport`, `CoreBrightness`).
+- **Auto-Brightness Override**: Automatically turns off macOS ambient sensor throttling so manual keyboard brightness control works even in bright rooms.
