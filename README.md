@@ -1,4 +1,6 @@
-# Ultra-Lightweight Trackpad Keyboard Backlight Controller
+# mac-lumitrack
+
+### Ultra-Lightweight Trackpad Keyboard Backlight Controller for macOS
 
 An ultra-lightweight, zero-dependency native macOS background daemon written in pure C/Objective-C that adjusts your MacBook keyboard backlight brightness via **`Command (⌘)` or `Fn` (Globe) + Trackpad drag**.
 
@@ -14,8 +16,8 @@ An ultra-lightweight, zero-dependency native macOS background daemon written in 
 Clone and start the background daemon on your Mac in one step:
 
 ```bash
-git clone https://github.com/anant-rajj/trackpad-kb-brightness.git
-cd trackpad-kb-brightness
+git clone https://github.com/anant-rajj/mac-lumitrack.git
+cd mac-lumitrack
 make start
 ```
 
@@ -61,7 +63,7 @@ make uninstall-service
 ## 4. Debug Mode
 To inspect real-time touch coordinates and brightness percentage values live in your terminal:
 ```bash
-./trackpad-kb-brightness --verbose
+./mac-lumitrack --verbose
 ```
 
 ---
@@ -77,7 +79,7 @@ To inspect real-time touch coordinates and brightness percentage values live in 
 
 ## 6. Uninstallation & Complete Removal
 
-To stop all background daemons, disable auto-start, and completely remove `trackpad-kb-brightness`:
+To stop all background daemons, disable auto-start, and completely remove `mac-lumitrack`:
 
 ### Option 1: Via Makefile
 From inside the repository directory:
@@ -90,14 +92,14 @@ make uninstall-service
 To ensure all running daemons, services, and downloaded files are completely removed:
 ```bash
 # 1. Stop background processes and unload LaunchAgent
-launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/com.anantraj.trackpad-kb-brightness.plist 2>/dev/null || true
-pkill -9 -f "trackpad-kb-brightness" || true
-rm -f /tmp/trackpad-kb-brightness.pid
+launchctl bootout gui/$(id -u) ~/Library/LaunchAgents/com.anantraj.mac-lumitrack.plist 2>/dev/null || true
+pkill -9 -f "mac-lumitrack" || true
+rm -f /tmp/mac-lumitrack.pid
 
 # 2. Remove the installed binary and LaunchAgent configuration
-rm -f ~/.local/bin/trackpad-kb-brightness
-rm -f ~/Library/LaunchAgents/com.anantraj.trackpad-kb-brightness.plist
+rm -f ~/.local/bin/mac-lumitrack
+rm -f ~/Library/LaunchAgents/com.anantraj.mac-lumitrack.plist
 
 # 3. Delete the repository directory
-rm -rf ~/trackpad-kb-brightness
+rm -rf ~/mac-lumitrack
 ```

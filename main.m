@@ -9,8 +9,8 @@
 #include <fcntl.h>
 #include <sys/stat.h>
 
-#define PID_FILE "/tmp/trackpad-kb-brightness.pid"
-#define LOG_FILE "/tmp/trackpad-kb-brightness.log"
+#define PID_FILE "/tmp/mac-lumitrack.pid"
+#define LOG_FILE "/tmp/mac-lumitrack.log"
 
 // --- Multitouch Support Private Framework Definitions ---
 typedef struct {
@@ -254,8 +254,8 @@ int main(int argc, const char * argv[]) {
                     }
                     fclose(fp);
                 }
-                system("pkill -f trackpad-kb-brightness 2>/dev/null || true");
-                printf("Stopped any running trackpad-kb-brightness instance.\n");
+                system("pkill -f mac-lumitrack 2>/dev/null || true");
+                printf("Stopped any running mac-lumitrack instance.\n");
                 return 0;
             }
         }

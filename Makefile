@@ -1,8 +1,8 @@
 CC = clang
 CFLAGS = -O3 -fobjc-arc -Wall -Wextra
 FRAMEWORKS = -framework Foundation -framework CoreGraphics -F/System/Library/PrivateFrameworks -framework MultitouchSupport -framework CoreBrightness
-TARGET = trackpad-kb-brightness
-PLIST = com.anantraj.trackpad-kb-brightness.plist
+TARGET = mac-lumitrack
+PLIST = com.anantraj.mac-lumitrack.plist
 BINDIR = $(HOME)/.local/bin
 LAUNCH_AGENTS_DIR = $(HOME)/Library/LaunchAgents
 
@@ -23,13 +23,13 @@ start: $(TARGET)
 
 # Stop background daemon
 stop:
-	@./$(TARGET) --stop 2>/dev/null || pkill -f "trackpad-kb-brightness" 2>/dev/null || true
-	@rm -f /tmp/trackpad-kb-brightness.pid
-	@echo "[OK] Stopped any running trackpad-kb-brightness process."
+	@./$(TARGET) --stop 2>/dev/null || pkill -f "mac-lumitrack" 2>/dev/null || true
+	@rm -f /tmp/mac-lumitrack.pid
+	@echo "[OK] Stopped any running mac-lumitrack process."
 
 # Check status
 status:
-	@pgrep -fl trackpad-kb-brightness || echo "Not running."
+	@pgrep -fl mac-lumitrack || echo "Not running."
 
 # Native macOS LaunchAgent (works for ANY user on any Mac: auto-starts on login)
 install-service: $(TARGET)

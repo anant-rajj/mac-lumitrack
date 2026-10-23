@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Label</key>
-    <string>com.anantraj.trackpad-kb-brightness</string>
+    <string>com.anantraj.mac-lumitrack</string>
     <key>ProgramArguments</key>
     <array>
         <string>BINARY_PATH_PLACEHOLDER</string>
@@ -13,9 +13,9 @@
     <key>KeepAlive</key>
     <true/>
     <key>StandardOutPath</key>
-    <string>/tmp/trackpad-kb-brightness.log</string>
+    <string>/tmp/mac-lumitrack.log</string>
     <key>StandardErrorPath</key>
-    <string>/tmp/trackpad-kb-brightness.log</string>
+    <string>/tmp/mac-lumitrack.log</string>
     <key>ProcessType</key>
     <string>Interactive</string>
 </dict>
