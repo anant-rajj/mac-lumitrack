@@ -257,6 +257,48 @@ int main(int argc, const char * argv[]) {
                 system("pkill -f mac-lumitrack 2>/dev/null || true");
                 printf("Stopped any running mac-lumitrack instance.\n");
                 return 0;
+            } else if (strcmp(argv[i], "-s") == 0 || strcmp(argv[i], "--status") == 0) {
+                FILE *fp = fopen(PID_FILE, "r");
+                if (fp) {
+                    int pid = 0;
+                    if (fscanf(fp, "%d", &pid) == 1 && pid > 0) {
+                        fclose(fp);
+                        if (kill(pid, 0) == 0) {
+                            printf("mac-lumitrack is running in background (PID: %d)\n", pid);
+                            return 0;
+                        }
+                    } else {
+                        fclose(fp);
+                    }
+                }
+                int ret = system("pgrep -q -f 'mac-lumitrack' 2>/dev/null");
+                if (ret == 0) {
+                    printf("mac-lumitrack daemon is running.\n");
+                    return 0;
+                }
+                printf("mac-lumitrack is not running.\n");
+                return 1;
+            } else if (strcmp(argv[i], "-h") == 0 || strcmp(argv[i], "--help") == 0) {
+                printf("mac-lumitrack - Ultra-lightweight trackpad keyboard backlight daemon for macOS\n\n");
+                printf("Usage:\n  mac-lumitrack [options]\n\n");
+                printf("Options:\n");
+                printf("  -d, --daemon     Run in background as detached daemon\n");
+                printf("  -s, --status     Check if daemon is currently running\n");
+                printf("  --stop           Stop any running mac-lumitrack daemon\n");
+                printf("  -v, --verbose    Enable verbose touch and key event logging\n");
+                printf("  -h, --help       Show this help message and exit\n");
+                printf("  --version        Show version information and exit\n\n");
+                printf("Gestures:\n");
+                printf("  Hold Command (⌘) or Fn (Globe) + 1-finger horizontal slide on lower trackpad:\n");
+                printf("    • Slide Right  -> Increase keyboard backlight\n");
+                printf("    • Slide Left   -> Decrease keyboard backlight\n");
+                return 0;
+            } else if (strcmp(argv[i], "--version") == 0) {
+                printf("mac-lumitrack v1.1.0 (macOS native C/Obj-C)\n");
+                return 0;
+            } else if (argv[i][0] == '-') {
+                fprintf(stderr, "mac-lumitrack: unrecognized option '%s'\nTry 'mac-lumitrack --help' for more information.\n", argv[i]);
+                return 1;
             }
         }
 

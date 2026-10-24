@@ -29,7 +29,7 @@ stop:
 
 # Check status
 status:
-	@pgrep -fl mac-lumitrack || echo "Not running."
+	@./$(TARGET) --status 2>/dev/null || pgrep -fl mac-lumitrack || echo "Not running."
 
 # Native macOS LaunchAgent (works for ANY user on any Mac: auto-starts on login)
 install-service: $(TARGET)

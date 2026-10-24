@@ -47,6 +47,16 @@ make stop     # Stop the background daemon
 make start    # Restart the background daemon
 ```
 
+### Direct CLI Commands
+```bash
+./mac-lumitrack --help       # Show all options and gesture instructions
+./mac-lumitrack --status     # Check daemon status and PID directly
+./mac-lumitrack --version    # Print version information
+./mac-lumitrack --daemon     # Launch in background
+./mac-lumitrack --stop       # Stop any running instances
+./mac-lumitrack --verbose    # Run with live touch/key event logs
+```
+
 ### Auto-Start 24/7 on Login (Optional)
 To have macOS start it automatically every time you log in (survives reboots, no terminal needed):
 ```bash
