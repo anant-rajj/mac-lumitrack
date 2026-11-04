@@ -1,0 +1,23 @@
+name: CI Build & Syntax Validation
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Compile mac-lumitrack binary
+        run: |
+          make all
+
+      - name: Verify binary output
+        run: |
+          test -f mac-lumitrack
+          file mac-lumitrack
